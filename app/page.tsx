@@ -3,12 +3,20 @@ import { getComponentCode } from '@/lib/getComponentCode'
 
 const approachConfig = {
   bad: {
-    title: '1. Bad Approach',
+    title: '1. Basic Approach (leads to waterfall effect in dynamic routes)',
     description: (
       <>
-        A single parent server component fetches data for both client
-        components. No Suspense is used, so the entire rendering is blocked
-        until all data is fetched.
+        A single server component fetches all data <strong>sequentially</strong>
+        . This creates a <strong>waterfall effect</strong>, where each fetch
+        waits for the previous one to complete. Client components are blocked
+        until all data is available, leading to a{' '}
+        <strong>slow initial load</strong> and{' '}
+        <strong>no individual loading states</strong>.
+        <br />
+        <br />
+        Note: For static pages that are pre-rendered at build time, this
+        approach is perfectly acceptable since all data fetching happens during
+        build.
       </>
     ),
     tabs: {
@@ -23,13 +31,18 @@ const approachConfig = {
     }
   },
   good: {
-    title: '2. Good Approach',
+    title: '2. Streaming with parallel fetching',
     description: (
       <>
-        The parent server component delegates data fetching by rendering two
-        server components wrapped in <code>Suspense</code>. Each server
-        component fetches its own data and passes it to its corresponding client
-        component so that each can show its own loading state.
+        Leverages <strong>Suspense</strong> boundaries to enable{' '}
+        <strong>parallel data fetching</strong> in separate server components.
+        Each component fetches its own data independently, allowing for{' '}
+        <strong>incremental loading</strong> and{' '}
+        <strong>individual loading states</strong>. Improves perceived
+        performance but requires creating more components.
+        <br />
+        <br />
+        If you are still on React 18 - this is the best approach.
       </>
     ),
     tabs: {
@@ -52,13 +65,19 @@ const approachConfig = {
     }
   },
   best: {
-    title: '3. Best Approach',
+    title: '3. Streaming with `use`',
     description: (
       <>
-        The parent server component initiates data fetching without awaiting AND
-        passes the resulting promises to client components wrapped in{' '}
-        <code>Suspense</code>. The client components use the new{' '}
-        <code>use</code> API to suspend rendering until the data is resolved.
+        Combines server-side data fetching with the React <strong>use</strong>{' '}
+        api within <strong>Suspense</strong> boundaries. The parent server
+        component initiates data requests and <strong>passes Promises</strong>{' '}
+        to client components. This enables <strong>incremental loading</strong>{' '}
+        and <strong>individual loading states</strong> in client components,{' '}
+        <strong>without separate server components</strong> for each data
+        dependency.
+        <br />
+        <br />
+        The <strong>use</strong> api is available in React 19 and above.
       </>
     ),
     tabs: {
@@ -114,9 +133,9 @@ export default function Home() {
   return (
     <div className="  bg-slate-100 text-slate-900">
       <p className="my-3 ">
-        Compare different approaches to data fetching in React 19 using Server
-        Components, Suspense and the new 'use' API. This demo shows how to
-        implement each approach and the pros and cons of each.
+        Compare different approaches to data fetching in React 19 Server
+        Components. This demo shows how to implement each approach and the pros
+        and cons of each.
       </p>
 
       <main>

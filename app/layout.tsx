@@ -71,29 +71,29 @@ export default function RootLayout({
               </Link>
             </h1>
             <nav>
-              <ul className="flex gap-6">
+              <ul className="flex gap-2">
                 <li>
                   <Link
                     href="/minimum"
-                    className="text-slate-600 hover:text-slate-900 transition-colors"
+                    className="text-slate-600 hover:text-slate-900 transition-colors border border-slate-200 rounded-md px-2 py-1"
                   >
-                    Minimum
+                    Bad approach demo
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/with-suspense"
-                    className="text-slate-600 hover:text-slate-900 transition-colors"
+                    className="text-slate-600 hover:text-slate-900 transition-colors border border-slate-200 rounded-md px-2 py-1"
                   >
-                    With Suspense
+                    Good approach demo
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/with-suspense-and-use"
-                    className="text-slate-600 hover:text-slate-900 transition-colors"
+                    className="text-slate-600 hover:text-slate-900 transition-colors border border-slate-200 rounded-md px-2 py-1"
                   >
-                    With Suspense and Use
+                    Best approach demo
                   </Link>
                 </li>
               </ul>
