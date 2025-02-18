@@ -35,8 +35,8 @@ export const metadata: Metadata = {
     title: 'React Data Fetching Patterns Guide',
     description:
       'Interactive demonstration of modern React data fetching strategies with Suspense and Server Components',
-    url: 'https://react-data-fetching-patterns.vercel.app/',
-    siteName: 'React Patterns Blog',
+    url: 'https://react-server-components-data-fetching.vercel.app/',
+    siteName: 'React Data Fetching Patterns Guide',
     locale: 'en_US',
     type: 'website'
   },
