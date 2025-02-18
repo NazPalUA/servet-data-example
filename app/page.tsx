@@ -2,7 +2,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { getComponentCode } from '@/lib/getComponentCode'
 
 const approachConfig = {
-  minimum: {
+  bad: {
+    title: '1. Bad Approach',
+    description: (
+      <>
+        A single parent server component fetches data for both client
+        components. No Suspense is used, so the entire rendering is blocked
+        until all data is fetched.
+      </>
+    ),
+    tabs: ['parent', 'child1', 'child2'],
     basePath: 'components/minimum',
     files: {
       parent: 'parent.server.tsx',
@@ -10,7 +19,17 @@ const approachConfig = {
       child2: 'child-2.client.tsx'
     }
   },
-  suspense: {
+  good: {
+    title: '2. Good Approach',
+    description: (
+      <>
+        The parent server component delegates data fetching by rendering two
+        server components wrapped in <code>Suspense</code>. Each server
+        component fetches its own data and passes it to its corresponding client
+        component so that each can show its own loading state.
+      </>
+    ),
+    tabs: ['parent', 'server1', 'server2', 'child1', 'child2'],
     basePath: 'components/with-suspense',
     files: {
       parent: 'parent.server.tsx',
@@ -21,6 +40,16 @@ const approachConfig = {
     }
   },
   best: {
+    title: '3. Best Approach',
+    description: (
+      <>
+        The parent server component initiates data fetching without awaiting AND
+        passes the resulting promises to client components wrapped in{' '}
+        <code>Suspense</code>. The client components use the new{' '}
+        <code>use</code> API to suspend rendering until the data is resolved.
+      </>
+    ),
+    tabs: ['parent', 'child1', 'child2'],
     basePath: 'components/with-suspense-and-use',
     files: {
       parent: 'parent.server.tsx',
@@ -30,84 +59,35 @@ const approachConfig = {
   }
 }
 
-const contentConfig = {
-  description:
-    "Compare different approaches to data fetching in React 19 using Server Components, Suspense and the new 'use' API. This demo shows how to implement each approach and the pros and cons of each.",
-  approaches: {
-    bad: {
-      title: '1. Bad Approach',
-      description: (
-        <>
-          A single parent server component fetches data for both client
-          components. No Suspense is used, so the entire rendering is blocked
-          until all data is fetched.
-        </>
-      ),
-      tabs: ['parent', 'child1', 'child2']
-    },
-    good: {
-      title: '2. Good Approach',
-      description: (
-        <>
-          The parent server component delegates data fetching by rendering two
-          server components wrapped in <code>Suspense</code>. Each server
-          component fetches its own data and passes it to its corresponding
-          client component so that each can show its own loading state.
-        </>
-      ),
-      tabs: ['parent', 'server1', 'server2', 'child1', 'child2']
-    },
-    best: {
-      title: '3. Best Approach',
-      description: (
-        <>
-          The parent server component initiates data fetching without awaiting
-          AND passes the resulting promises to client components wrapped in{' '}
-          <code>Suspense</code>. The client components use the new{' '}
-          <code>use</code> API to suspend rendering until the data is resolved.
-        </>
-      ),
-      tabs: ['parent', 'child1', 'child2']
-    }
-  },
-  footer: {
-    text: 'Check out the code on ',
-    github: {
-      url: 'https://github.com/NazPalUA/servet-data-example',
-      label: 'GitHub'
-    }
-  }
-}
-
 export default function Home() {
   // Group related code fetches
   const minimumApproach = {
     parent: getComponentCode(
-      `${approachConfig.minimum.basePath}/${approachConfig.minimum.files.parent}`
+      `${approachConfig.bad.basePath}/${approachConfig.bad.files.parent}`
     ),
     child1: getComponentCode(
-      `${approachConfig.minimum.basePath}/${approachConfig.minimum.files.child1}`
+      `${approachConfig.bad.basePath}/${approachConfig.bad.files.child1}`
     ),
     child2: getComponentCode(
-      `${approachConfig.minimum.basePath}/${approachConfig.minimum.files.child2}`
+      `${approachConfig.bad.basePath}/${approachConfig.bad.files.child2}`
     )
   }
 
   const suspenseApproach = {
     parent: getComponentCode(
-      `${approachConfig.suspense.basePath}/${approachConfig.suspense.files.parent}`
+      `${approachConfig.good.basePath}/${approachConfig.good.files.parent}`
     ),
     server1: getComponentCode(
-      `${approachConfig.suspense.basePath}/${approachConfig.suspense.files.server1}`
+      `${approachConfig.good.basePath}/${approachConfig.good.files.server1}`
     ),
     server2: getComponentCode(
-      `${approachConfig.suspense.basePath}/${approachConfig.suspense.files.server2}`
+      `${approachConfig.good.basePath}/${approachConfig.good.files.server2}`
     ),
     child1: getComponentCode(
-      `${approachConfig.suspense.basePath}/${approachConfig.suspense.files.child1}`
+      `${approachConfig.good.basePath}/${approachConfig.good.files.child1}`
     ),
     child2: getComponentCode(
-      `${approachConfig.suspense.basePath}/${approachConfig.suspense.files.child2}`
+      `${approachConfig.good.basePath}/${approachConfig.good.files.child2}`
     )
   }
 
@@ -164,20 +144,24 @@ export default function Home() {
   return (
     <div className=" font-sans bg-slate-100 text-slate-900">
       <header className="my-3 max-w-4xl mx-auto">
-        <p>{contentConfig.description}</p>
+        <p>
+          Compare different approaches to data fetching in React 19 using Server
+          Components, Suspense and the new 'use' API. This demo shows how to
+          implement each approach and the pros and cons of each.
+        </p>
       </header>
 
       <main className="max-w-4xl mx-auto">
         <Tabs defaultValue="bad" className="mb-6">
           <TabsList>
-            {Object.entries(contentConfig.approaches).map(([key]) => (
+            {Object.entries(approachConfig).map(([key]) => (
               <TabsTrigger key={key} value={key}>
                 {key.charAt(0).toUpperCase() + key.slice(1)} Approach
               </TabsTrigger>
             ))}
           </TabsList>
 
-          {Object.entries(contentConfig.approaches).map(([key, config]) => (
+          {Object.entries(approachConfig).map(([key, config]) => (
             <TabsContent key={key} value={key}>
               <ApproachSection
                 title={config.title}
@@ -198,14 +182,14 @@ export default function Home() {
 
       <footer className="mt-12 text-center max-w-4xl mx-auto text-slate-600">
         <p>
-          {contentConfig.footer.text}
+          Check out the code on{' '}
           <a
             className="text-blue-600 hover:underline"
-            href={contentConfig.footer.github.url}
+            href="https://github.com/NazPalUA/servet-data-example"
             target="_blank"
             rel="noopener noreferrer"
           >
-            {contentConfig.footer.github.label}
+            GitHub
           </a>
         </p>
       </footer>
