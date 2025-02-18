@@ -13,16 +13,12 @@ const approachConfig = {
     ),
     tabs: {
       parent: {
-        title: 'Parent',
+        title: 'Parent (Server)',
         file: 'components/minimum/parent.server.tsx'
       },
-      child1: {
-        title: 'Child 1',
-        file: 'components/minimum/child-1.client.tsx'
-      },
-      child2: {
-        title: 'Child 2',
-        file: 'components/minimum/child-2.client.tsx'
+      child: {
+        title: 'Child (Client)',
+        file: 'components/minimum/child.client.tsx'
       }
     }
   },
@@ -38,24 +34,20 @@ const approachConfig = {
     ),
     tabs: {
       parent: {
-        title: 'Parent',
+        title: 'Parent (Server)',
         file: 'components/with-suspense/parent.server.tsx'
       },
       server1: {
-        title: 'Server 1',
+        title: 'Child 1 (Server)',
         file: 'components/with-suspense/child-1.server.tsx'
       },
       server2: {
-        title: 'Server 2',
+        title: 'Child 2 (Server)',
         file: 'components/with-suspense/child-2.server.tsx'
       },
-      child1: {
-        title: 'Child 1',
-        file: 'components/with-suspense/child-1.client.tsx'
-      },
-      child2: {
-        title: 'Child 2',
-        file: 'components/with-suspense/child-2.client.tsx'
+      grandchild: {
+        title: 'Grandchild (Client)',
+        file: 'components/with-suspense/grandchild.client.tsx'
       }
     }
   },
@@ -71,16 +63,12 @@ const approachConfig = {
     ),
     tabs: {
       parent: {
-        title: 'Parent',
+        title: 'Parent (Server)',
         file: 'components/with-suspense-and-use/parent.server.tsx'
       },
-      child1: {
-        title: 'Child 1',
-        file: 'components/with-suspense-and-use/child-1.client.tsx'
-      },
-      child2: {
-        title: 'Child 2',
-        file: 'components/with-suspense-and-use/child-2.client.tsx'
+      child: {
+        title: 'Child (Client)',
+        file: 'components/with-suspense-and-use/child.client.tsx'
       }
     }
   }

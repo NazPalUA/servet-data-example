@@ -7,10 +7,10 @@ export async function ParentWithSuspense() {
     <div className="mt-10">
       <h1 className="text-2xl font-bold mb-4">With Suspense</h1>
       <div className="flex gap-4 items-stretch">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div>Loading first component...</div>}>
           <ChildServer1 />
         </Suspense>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div>Loading second component...</div>}>
           <ChildServer2 />
         </Suspense>
       </div>
