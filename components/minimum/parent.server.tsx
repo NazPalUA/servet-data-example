@@ -7,7 +7,7 @@ export async function ParentMinimum() {
 
   return (
     <div className="mt-10">
-      <h1 className="text-2xl font-bold mb-4">Minimum Route</h1>
+      <h1 className="text-2xl font-bold mb-4">Basic Approach</h1>
       <div className="flex gap-4 items-stretch">
         <Child data={data1} />
         <Child data={data2} />
