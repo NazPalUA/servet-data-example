@@ -31,11 +31,8 @@ const approachConfig = {
 }
 
 const contentConfig = {
-  header: {
-    title: 'React 19: "use" API Demo',
-    description:
-      "Explore different approaches to data fetching in React 19. In this demo, you'll see:"
-  },
+  description:
+    "Compare different approaches to data fetching in React 19 using Server Components, Suspense and the new 'use' API. This demo shows how to implement each approach and the pros and cons of each.",
   approaches: {
     bad: {
       title: '1. Bad Approach',
@@ -76,7 +73,7 @@ const contentConfig = {
   footer: {
     text: 'Check out the code on ',
     github: {
-      url: 'https://github.com/yourusername/react19-use-demo',
+      url: 'https://github.com/NazPalUA/servet-data-example',
       label: 'GitHub'
     }
   }
@@ -165,12 +162,9 @@ export default function Home() {
   )
 
   return (
-    <div className="min-h-screen p-8 font-sans bg-slate-100 text-slate-900">
-      <header className="mb-8 max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-4">
-          {contentConfig.header.title}
-        </h1>
-        <p className="mt-4 text-lg">{contentConfig.header.description}</p>
+    <div className=" font-sans bg-slate-100 text-slate-900">
+      <header className="my-3 max-w-4xl mx-auto">
+        <p>{contentConfig.description}</p>
       </header>
 
       <main className="max-w-4xl mx-auto">
