@@ -91,7 +91,7 @@ export default function Home() {
         <p className="mb-4">{description}</p>
         <div className="mt-4">
           <Tabs defaultValue="parent">
-            <TabsList className="mb-4">
+            <TabsList>
               {Object.entries(tabs).map(([key, config]) => (
                 <TabsTrigger key={key} value={key}>
                   {config.title}
@@ -99,7 +99,7 @@ export default function Home() {
               ))}
             </TabsList>
             {Object.entries(tabs).map(([key, config]) => (
-              <TabsContent key={key} value={key}>
+              <TabsContent key={key} value={key} className="mt-1">
                 <pre className="bg-slate-50 p-4 rounded text-sm overflow-auto border border-slate-200">
                   {getComponentCode(config.file)}
                 </pre>
@@ -112,27 +112,39 @@ export default function Home() {
   )
 
   return (
-    <div className=" font-sans bg-slate-100 text-slate-900">
-      <header className="my-3 max-w-4xl mx-auto">
-        <p>
-          Compare different approaches to data fetching in React 19 using Server
-          Components, Suspense and the new 'use' API. This demo shows how to
-          implement each approach and the pros and cons of each.
-        </p>
-      </header>
+    <div className="  bg-slate-100 text-slate-900">
+      <p className="my-3 ">
+        Compare different approaches to data fetching in React 19 using Server
+        Components, Suspense and the new 'use' API. This demo shows how to
+        implement each approach and the pros and cons of each.
+      </p>
 
-      <main className="max-w-4xl mx-auto">
-        <Tabs defaultValue="bad" className="mb-6">
-          <TabsList>
-            {Object.entries(approachConfig).map(([key]) => (
-              <TabsTrigger key={key} value={key}>
-                {key.charAt(0).toUpperCase() + key.slice(1)} Approach
-              </TabsTrigger>
-            ))}
-          </TabsList>
+      <main>
+        <Tabs defaultValue="bad" className="my-6">
+          <div className="flex justify-between items-center">
+            <TabsList>
+              {Object.entries(approachConfig).map(([key]) => (
+                <TabsTrigger key={key} value={key}>
+                  {key.charAt(0).toUpperCase() + key.slice(1)} Approach
+                </TabsTrigger>
+              ))}
+            </TabsList>
+
+            <p className="text-center text-slate-600">
+              Check out the code on{' '}
+              <a
+                className="text-blue-600 hover:underline"
+                href="https://github.com/NazPalUA/servet-data-example"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub
+              </a>
+            </p>
+          </div>
 
           {Object.entries(approachConfig).map(([key, config]) => (
-            <TabsContent key={key} value={key}>
+            <TabsContent key={key} value={key} className="mt-1">
               <ApproachSection
                 title={config.title}
                 description={config.description}
@@ -142,20 +154,6 @@ export default function Home() {
           ))}
         </Tabs>
       </main>
-
-      <footer className="mt-12 text-center max-w-4xl mx-auto text-slate-600">
-        <p>
-          Check out the code on{' '}
-          <a
-            className="text-blue-600 hover:underline"
-            href="https://github.com/NazPalUA/servet-data-example"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GitHub
-          </a>
-        </p>
-      </footer>
     </div>
   )
 }
