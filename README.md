@@ -1,5 +1,60 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Demo Overview
+
+This repository serves as a demo for my upcoming Medium post discussing the new React 19 "use" API. In this demo you'll find three different approaches for handling data fetching in React components:
+
+1. **Bad Approach:** A single parent server component fetches data for two client components, blocking rendering until data is available (1 server + 2 client components).
+2. **Good Approach:** The parent server component delegates data fetching to two dedicated server components wrapped in Suspense (3 server + 2 client components).
+3. **Best Approach:** The parent component initiates data fetching without awaiting results and passes promises to client components that use the new "use" API to suspend rendering until data is ready (1 server + 2 client components).
+
+Check out the code examples in this repository and learn how the "use" API simplifies data fetching in React.
+
+## Implementation Details
+
+### 🚫 Bad Approach (Minimum)
+
+- **Components**:
+  - 1 Server Component (`components/minimum/parent.server.tsx`)
+  - 2 Client Components (`components/minimum/child-*.client.tsx`)
+- **Data Flow**:
+  ```mermaid
+  graph TD
+    A[Parent Server] -->|await| B[Fetch Data 1]
+    A -->|await| C[Fetch Data 2]
+    B --> D[Client Child 1]
+    C --> E[Client Child 2]
+  ```
+
+### 👍 Good Approach (With Suspense)
+
+- **Components**:
+  - 1 Parent Server (`components/with-suspense/parent.server.tsx`)
+  - 2 Server Children (`components/with-suspense/child-*.server.tsx`)
+  - 2 Client Children (`components/with-suspense/child-*.client.tsx`)
+- **Data Flow**:
+  ```mermaid
+  graph TD
+    A[Parent Server] --> B[Suspense Boundary 1]
+    A --> C[Suspense Boundary 2]
+    B --> D[Server Child 1]
+    C --> E[Server Child 2]
+    D --> F[Client Child 1]
+    E --> G[Client Child 2]
+  ```
+
+### 🏆 Best Approach (Suspense + use)
+
+- **Components**:
+  - 1 Server Component (`components/with-suspense-and-use/parent.server.tsx`)
+  - 2 Client Components (`components/with-suspense-and-use/child-*.client.tsx`)
+- **Key Innovation**:
+  ```typescript:components/with-suspense-and-use/child-1.client.tsx
+  startLine: 6
+  endLine: 15
+  ```
+  Uses React 19's `use()` hook to directly consume promises in client components
+
 ## Getting Started
 
 First, run the development server:

@@ -1,100 +1,219 @@
-import Image from 'next/image'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { getComponentCode } from '@/lib/getComponentCode'
+
+const approachConfig = {
+  minimum: {
+    basePath: 'components/minimum',
+    files: {
+      parent: 'parent.server.tsx',
+      child1: 'child-1.client.tsx',
+      child2: 'child-2.client.tsx'
+    }
+  },
+  suspense: {
+    basePath: 'components/with-suspense',
+    files: {
+      parent: 'parent.server.tsx',
+      server1: 'child-1.server.tsx',
+      server2: 'child-2.server.tsx',
+      child1: 'child-1.client.tsx',
+      child2: 'child-2.client.tsx'
+    }
+  },
+  best: {
+    basePath: 'components/with-suspense-and-use',
+    files: {
+      parent: 'parent.server.tsx',
+      child1: 'child-1.client.tsx',
+      child2: 'child-2.client.tsx'
+    }
+  }
+}
+
+const contentConfig = {
+  header: {
+    title: 'React 19: "use" API Demo',
+    description:
+      "Explore different approaches to data fetching in React 19. In this demo, you'll see:"
+  },
+  approaches: {
+    bad: {
+      title: '1. Bad Approach',
+      description: (
+        <>
+          A single parent server component fetches data for both client
+          components. No Suspense is used, so the entire rendering is blocked
+          until all data is fetched.
+        </>
+      ),
+      tabs: ['parent', 'child1', 'child2']
+    },
+    good: {
+      title: '2. Good Approach',
+      description: (
+        <>
+          The parent server component delegates data fetching by rendering two
+          server components wrapped in <code>Suspense</code>. Each server
+          component fetches its own data and passes it to its corresponding
+          client component so that each can show its own loading state.
+        </>
+      ),
+      tabs: ['parent', 'server1', 'server2', 'child1', 'child2']
+    },
+    best: {
+      title: '3. Best Approach',
+      description: (
+        <>
+          The parent server component initiates data fetching without awaiting
+          AND passes the resulting promises to client components wrapped in{' '}
+          <code>Suspense</code>. The client components use the new{' '}
+          <code>use</code> API to suspend rendering until the data is resolved.
+        </>
+      ),
+      tabs: ['parent', 'child1', 'child2']
+    }
+  },
+  footer: {
+    text: 'Check out the code on ',
+    github: {
+      url: 'https://github.com/yourusername/react19-use-demo',
+      label: 'GitHub'
+    }
+  }
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center  p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{' '}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  // Group related code fetches
+  const minimumApproach = {
+    parent: getComponentCode(
+      `${approachConfig.minimum.basePath}/${approachConfig.minimum.files.parent}`
+    ),
+    child1: getComponentCode(
+      `${approachConfig.minimum.basePath}/${approachConfig.minimum.files.child1}`
+    ),
+    child2: getComponentCode(
+      `${approachConfig.minimum.basePath}/${approachConfig.minimum.files.child2}`
+    )
+  }
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const suspenseApproach = {
+    parent: getComponentCode(
+      `${approachConfig.suspense.basePath}/${approachConfig.suspense.files.parent}`
+    ),
+    server1: getComponentCode(
+      `${approachConfig.suspense.basePath}/${approachConfig.suspense.files.server1}`
+    ),
+    server2: getComponentCode(
+      `${approachConfig.suspense.basePath}/${approachConfig.suspense.files.server2}`
+    ),
+    child1: getComponentCode(
+      `${approachConfig.suspense.basePath}/${approachConfig.suspense.files.child1}`
+    ),
+    child2: getComponentCode(
+      `${approachConfig.suspense.basePath}/${approachConfig.suspense.files.child2}`
+    )
+  }
+
+  const bestApproach = {
+    parent: getComponentCode(
+      `${approachConfig.best.basePath}/${approachConfig.best.files.parent}`
+    ),
+    child1: getComponentCode(
+      `${approachConfig.best.basePath}/${approachConfig.best.files.child1}`
+    ),
+    child2: getComponentCode(
+      `${approachConfig.best.basePath}/${approachConfig.best.files.child2}`
+    )
+  }
+
+  // Reusable tab content component
+  const ApproachSection = ({
+    title,
+    description,
+    tabs,
+    codeMap
+  }: {
+    title: string
+    description: React.ReactNode
+    tabs: string[]
+    codeMap: Record<string, string>
+  }) => (
+    <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
+      <section>
+        <h2 className="text-xl font-semibold mb-3">{title}</h2>
+        <p className="mb-4">{description}</p>
+        <div className="mt-4">
+          <Tabs defaultValue="parent">
+            <TabsList className="mb-4">
+              {tabs.map(tab => (
+                <TabsTrigger key={tab} value={tab}>
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+            {tabs.map(tab => (
+              <TabsContent key={tab} value={tab}>
+                <pre className="bg-slate-50 p-4 rounded text-sm overflow-auto border border-slate-200">
+                  {codeMap[tab]}
+                </pre>
+              </TabsContent>
+            ))}
+          </Tabs>
         </div>
+      </section>
+    </div>
+  )
+
+  return (
+    <div className="min-h-screen p-8 font-sans bg-slate-100 text-slate-900">
+      <header className="mb-8 max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold mb-4">
+          {contentConfig.header.title}
+        </h1>
+        <p className="mt-4 text-lg">{contentConfig.header.description}</p>
+      </header>
+
+      <main className="max-w-4xl mx-auto">
+        <Tabs defaultValue="bad" className="mb-6">
+          <TabsList>
+            {Object.entries(contentConfig.approaches).map(([key]) => (
+              <TabsTrigger key={key} value={key}>
+                {key.charAt(0).toUpperCase() + key.slice(1)} Approach
+              </TabsTrigger>
+            ))}
+          </TabsList>
+
+          {Object.entries(contentConfig.approaches).map(([key, config]) => (
+            <TabsContent key={key} value={key}>
+              <ApproachSection
+                title={config.title}
+                description={config.description}
+                tabs={config.tabs}
+                codeMap={
+                  {
+                    bad: minimumApproach,
+                    good: suspenseApproach,
+                    best: bestApproach
+                  }[key] as Record<string, string>
+                }
+              />
+            </TabsContent>
+          ))}
+        </Tabs>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      <footer className="mt-12 text-center max-w-4xl mx-auto text-slate-600">
+        <p>
+          {contentConfig.footer.text}
+          <a
+            className="text-blue-600 hover:underline"
+            href={contentConfig.footer.github.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {contentConfig.footer.github.label}
+          </a>
+        </p>
       </footer>
     </div>
   )
