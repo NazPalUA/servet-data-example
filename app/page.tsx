@@ -12,11 +12,10 @@ const approachConfig = {
       </>
     ),
     tabs: ['parent', 'child1', 'child2'],
-    basePath: 'components/minimum',
-    files: {
-      parent: 'parent.server.tsx',
-      child1: 'child-1.client.tsx',
-      child2: 'child-2.client.tsx'
+    codeMap: {
+      parent: getComponentCode('components/minimum/parent.server.tsx'),
+      child1: getComponentCode('components/minimum/child-1.client.tsx'),
+      child2: getComponentCode('components/minimum/child-2.client.tsx')
     }
   },
   good: {
@@ -30,13 +29,12 @@ const approachConfig = {
       </>
     ),
     tabs: ['parent', 'server1', 'server2', 'child1', 'child2'],
-    basePath: 'components/with-suspense',
-    files: {
-      parent: 'parent.server.tsx',
-      server1: 'child-1.server.tsx',
-      server2: 'child-2.server.tsx',
-      child1: 'child-1.client.tsx',
-      child2: 'child-2.client.tsx'
+    codeMap: {
+      parent: getComponentCode('components/with-suspense/parent.server.tsx'),
+      server1: getComponentCode('components/with-suspense/child-1.server.tsx'),
+      server2: getComponentCode('components/with-suspense/child-2.server.tsx'),
+      child1: getComponentCode('components/with-suspense/child-1.client.tsx'),
+      child2: getComponentCode('components/with-suspense/child-2.client.tsx')
     }
   },
   best: {
@@ -50,59 +48,21 @@ const approachConfig = {
       </>
     ),
     tabs: ['parent', 'child1', 'child2'],
-    basePath: 'components/with-suspense-and-use',
-    files: {
-      parent: 'parent.server.tsx',
-      child1: 'child-1.client.tsx',
-      child2: 'child-2.client.tsx'
+    codeMap: {
+      parent: getComponentCode(
+        'components/with-suspense-and-use/parent.server.tsx'
+      ),
+      child1: getComponentCode(
+        'components/with-suspense-and-use/child-1.client.tsx'
+      ),
+      child2: getComponentCode(
+        'components/with-suspense-and-use/child-2.client.tsx'
+      )
     }
   }
 }
 
 export default function Home() {
-  // Group related code fetches
-  const minimumApproach = {
-    parent: getComponentCode(
-      `${approachConfig.bad.basePath}/${approachConfig.bad.files.parent}`
-    ),
-    child1: getComponentCode(
-      `${approachConfig.bad.basePath}/${approachConfig.bad.files.child1}`
-    ),
-    child2: getComponentCode(
-      `${approachConfig.bad.basePath}/${approachConfig.bad.files.child2}`
-    )
-  }
-
-  const suspenseApproach = {
-    parent: getComponentCode(
-      `${approachConfig.good.basePath}/${approachConfig.good.files.parent}`
-    ),
-    server1: getComponentCode(
-      `${approachConfig.good.basePath}/${approachConfig.good.files.server1}`
-    ),
-    server2: getComponentCode(
-      `${approachConfig.good.basePath}/${approachConfig.good.files.server2}`
-    ),
-    child1: getComponentCode(
-      `${approachConfig.good.basePath}/${approachConfig.good.files.child1}`
-    ),
-    child2: getComponentCode(
-      `${approachConfig.good.basePath}/${approachConfig.good.files.child2}`
-    )
-  }
-
-  const bestApproach = {
-    parent: getComponentCode(
-      `${approachConfig.best.basePath}/${approachConfig.best.files.parent}`
-    ),
-    child1: getComponentCode(
-      `${approachConfig.best.basePath}/${approachConfig.best.files.child1}`
-    ),
-    child2: getComponentCode(
-      `${approachConfig.best.basePath}/${approachConfig.best.files.child2}`
-    )
-  }
-
   // Reusable tab content component
   const ApproachSection = ({
     title,
@@ -167,13 +127,7 @@ export default function Home() {
                 title={config.title}
                 description={config.description}
                 tabs={config.tabs}
-                codeMap={
-                  {
-                    bad: minimumApproach,
-                    good: suspenseApproach,
-                    best: bestApproach
-                  }[key] as Record<string, string>
-                }
+                codeMap={config.codeMap}
               />
             </TabsContent>
           ))}
