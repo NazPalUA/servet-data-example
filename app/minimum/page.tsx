@@ -1,5 +1,7 @@
-import { ParentMinimum } from "@/components/minimum/parent.server"
+import { ParentMinimum } from '@/components/minimum/parent.server'
+import { connection } from 'next/server'
 
-export default function Page() {
-	return <ParentMinimum />
+export default async function Page() {
+  await connection()
+  return <ParentMinimum />
 }

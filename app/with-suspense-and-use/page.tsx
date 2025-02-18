@@ -1,5 +1,7 @@
-import { ParentWithSuspenseAndUse } from "@/components/with-suspense-and-use/parent.server"
+import { ParentWithSuspenseAndUse } from '@/components/with-suspense-and-use/parent.server'
+import { connection } from 'next/server'
 
-export default function Page() {
-	return <ParentWithSuspenseAndUse />
+export default async function Page() {
+  await connection()
+  return <ParentWithSuspenseAndUse />
 }
