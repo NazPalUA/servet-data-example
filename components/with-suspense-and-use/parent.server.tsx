@@ -1,4 +1,3 @@
-import { PageLayout } from '@/components/page-layout'
 import { getData } from '@/server/getData'
 import { Suspense } from 'react'
 import { Child1 } from './child-1.client'
@@ -9,13 +8,16 @@ export async function ParentWithSuspenseAndUse() {
   const data2 = getData('Component 2')
 
   return (
-    <PageLayout title="With Suspense and Use Route">
-      <Suspense fallback={<div>Loading...</div>}>
-        <Child1 dataPromise={data1} />
-      </Suspense>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Child2 dataPromise={data2} />
-      </Suspense>
-    </PageLayout>
+    <div className="mt-10">
+      <h1 className="text-2xl font-bold mb-4">With Suspense and Use Route</h1>
+      <div className="flex gap-4 items-stretch">
+        <Suspense fallback={<div>Loading...</div>}>
+          <Child1 dataPromise={data1} />
+        </Suspense>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Child2 dataPromise={data2} />
+        </Suspense>
+      </div>
+    </div>
   )
 }
