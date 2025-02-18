@@ -11,11 +11,19 @@ const approachConfig = {
         until all data is fetched.
       </>
     ),
-    tabs: ['parent', 'child1', 'child2'],
-    codeMap: {
-      parent: getComponentCode('components/minimum/parent.server.tsx'),
-      child1: getComponentCode('components/minimum/child-1.client.tsx'),
-      child2: getComponentCode('components/minimum/child-2.client.tsx')
+    tabs: {
+      parent: {
+        title: 'Parent',
+        file: 'components/minimum/parent.server.tsx'
+      },
+      child1: {
+        title: 'Child 1',
+        file: 'components/minimum/child-1.client.tsx'
+      },
+      child2: {
+        title: 'Child 2',
+        file: 'components/minimum/child-2.client.tsx'
+      }
     }
   },
   good: {
@@ -28,13 +36,27 @@ const approachConfig = {
         component so that each can show its own loading state.
       </>
     ),
-    tabs: ['parent', 'server1', 'server2', 'child1', 'child2'],
-    codeMap: {
-      parent: getComponentCode('components/with-suspense/parent.server.tsx'),
-      server1: getComponentCode('components/with-suspense/child-1.server.tsx'),
-      server2: getComponentCode('components/with-suspense/child-2.server.tsx'),
-      child1: getComponentCode('components/with-suspense/child-1.client.tsx'),
-      child2: getComponentCode('components/with-suspense/child-2.client.tsx')
+    tabs: {
+      parent: {
+        title: 'Parent',
+        file: 'components/with-suspense/parent.server.tsx'
+      },
+      server1: {
+        title: 'Server 1',
+        file: 'components/with-suspense/child-1.server.tsx'
+      },
+      server2: {
+        title: 'Server 2',
+        file: 'components/with-suspense/child-2.server.tsx'
+      },
+      child1: {
+        title: 'Child 1',
+        file: 'components/with-suspense/child-1.client.tsx'
+      },
+      child2: {
+        title: 'Child 2',
+        file: 'components/with-suspense/child-2.client.tsx'
+      }
     }
   },
   best: {
@@ -47,17 +69,19 @@ const approachConfig = {
         <code>use</code> API to suspend rendering until the data is resolved.
       </>
     ),
-    tabs: ['parent', 'child1', 'child2'],
-    codeMap: {
-      parent: getComponentCode(
-        'components/with-suspense-and-use/parent.server.tsx'
-      ),
-      child1: getComponentCode(
-        'components/with-suspense-and-use/child-1.client.tsx'
-      ),
-      child2: getComponentCode(
-        'components/with-suspense-and-use/child-2.client.tsx'
-      )
+    tabs: {
+      parent: {
+        title: 'Parent',
+        file: 'components/with-suspense-and-use/parent.server.tsx'
+      },
+      child1: {
+        title: 'Child 1',
+        file: 'components/with-suspense-and-use/child-1.client.tsx'
+      },
+      child2: {
+        title: 'Child 2',
+        file: 'components/with-suspense-and-use/child-2.client.tsx'
+      }
     }
   }
 }
@@ -67,13 +91,11 @@ export default function Home() {
   const ApproachSection = ({
     title,
     description,
-    tabs,
-    codeMap
+    tabs
   }: {
     title: string
     description: React.ReactNode
-    tabs: string[]
-    codeMap: Record<string, string>
+    tabs: Record<string, { title: string; file: string }>
   }) => (
     <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
       <section>
@@ -82,16 +104,16 @@ export default function Home() {
         <div className="mt-4">
           <Tabs defaultValue="parent">
             <TabsList className="mb-4">
-              {tabs.map(tab => (
-                <TabsTrigger key={tab} value={tab}>
-                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              {Object.entries(tabs).map(([key, config]) => (
+                <TabsTrigger key={key} value={key}>
+                  {config.title}
                 </TabsTrigger>
               ))}
             </TabsList>
-            {tabs.map(tab => (
-              <TabsContent key={tab} value={tab}>
+            {Object.entries(tabs).map(([key, config]) => (
+              <TabsContent key={key} value={key}>
                 <pre className="bg-slate-50 p-4 rounded text-sm overflow-auto border border-slate-200">
-                  {codeMap[tab]}
+                  {getComponentCode(config.file)}
                 </pre>
               </TabsContent>
             ))}
@@ -127,7 +149,6 @@ export default function Home() {
                 title={config.title}
                 description={config.description}
                 tabs={config.tabs}
-                codeMap={config.codeMap}
               />
             </TabsContent>
           ))}
