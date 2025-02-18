@@ -131,8 +131,8 @@ export default function Home() {
   )
 
   return (
-    <div className="  bg-slate-100 text-slate-900">
-      <p className="my-3 ">
+    <div className="bg-slate-100 text-slate-900">
+      <p className="my-3 text-sm md:text-base">
         Compare different approaches to data fetching in React 19 Server
         Components. This demo shows how to implement each approach and the pros
         and cons of each.
@@ -140,16 +140,20 @@ export default function Home() {
 
       <main>
         <Tabs defaultValue="bad" className="my-6">
-          <div className="flex justify-between items-center">
-            <TabsList>
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+            <TabsList className="w-full md:w-auto overflow-x-auto">
               {Object.entries(approachConfig).map(([key]) => (
-                <TabsTrigger key={key} value={key}>
+                <TabsTrigger
+                  key={key}
+                  value={key}
+                  className="text-sm md:text-base"
+                >
                   {key.charAt(0).toUpperCase() + key.slice(1)} Approach
                 </TabsTrigger>
               ))}
             </TabsList>
 
-            <p className="text-center text-slate-600">
+            <p className="text-center text-slate-600 text-sm md:text-base">
               Check out the code on{' '}
               <a
                 className="text-blue-600 hover:underline"
@@ -163,7 +167,7 @@ export default function Home() {
           </div>
 
           {Object.entries(approachConfig).map(([key, config]) => (
-            <TabsContent key={key} value={key} className="mt-1">
+            <TabsContent key={key} value={key} className="mt-4">
               <ApproachSection
                 title={config.title}
                 description={config.description}

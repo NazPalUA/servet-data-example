@@ -60,9 +60,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-100 text-slate-900`}
       >
-        <main className="min-h-screen p-8">
-          <header className="max-w-4xl mx-auto  flex justify-between items-center">
-            <h1 className="text-3xl font-bold ">
+        <main className="min-h-screen p-4 md:p-8">
+          <header className="max-w-4xl mx-auto flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
+            <h1 className="text-2xl md:text-3xl font-bold">
               <Link
                 href="/"
                 className="text-slate-600 hover:text-slate-900 transition-colors"
@@ -71,35 +71,25 @@ export default function RootLayout({
               </Link>
             </h1>
             <nav>
-              <ul className="flex gap-2">
-                <li>
-                  <Link
-                    href="/minimum"
-                    className="text-slate-600 hover:text-slate-900 transition-colors border border-slate-200 rounded-md px-2 py-1"
-                  >
-                    Bad approach demo
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/with-suspense"
-                    className="text-slate-600 hover:text-slate-900 transition-colors border border-slate-200 rounded-md px-2 py-1"
-                  >
-                    Good approach demo
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/with-suspense-and-use"
-                    className="text-slate-600 hover:text-slate-900 transition-colors border border-slate-200 rounded-md px-2 py-1"
-                  >
-                    Best approach demo
-                  </Link>
-                </li>
+              <ul className="flex flex-wrap gap-2">
+                {[
+                  { href: '/minimum', label: 'Bad approach' },
+                  { href: '/with-suspense', label: 'Good approach' },
+                  { href: '/with-suspense-and-use', label: 'Best approach' }
+                ].map(link => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="text-sm md:text-base text-slate-600 hover:text-slate-900 transition-colors border border-slate-200 rounded-md px-2 py-1"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </nav>
           </header>
-          <div className="max-w-4xl mx-auto">{children}</div>
+          <div className="max-w-4xl mx-auto px-2 md:px-0">{children}</div>
         </main>
       </body>
     </html>
